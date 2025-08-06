@@ -40,7 +40,8 @@ jobs:
         with:
           python-version: "3.13"
 
-
+      - name: List Python lib folder
+        run: dir "${{ env.pythonLocation }}\libs"
 
       - name: Check choco location
         run: |

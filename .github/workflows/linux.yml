@@ -33,7 +33,7 @@ jobs:
             CXX: clang++-18
           }
     steps:
-      - uses: Jimver/cuda-toolkit@v0.2.26
+      - uses: Jimver/cuda-toolkit@v0.2.24
         id: cuda-toolkit
         with:
           cuda: '12.9.1'

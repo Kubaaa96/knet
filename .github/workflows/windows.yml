@@ -25,7 +25,7 @@ jobs:
           pip install conan gcovr
           choco install cppcheck ccache
 
-      - uses: Jimver/cuda-toolkit@v0.2.26
+      - uses: Jimver/cuda-toolkit@v0.2.24
         id: cuda-toolkit
         with:
           cuda: '12.9.1'

@@ -21,6 +21,10 @@ run_conan(
 )
 
 find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
+
+message(STATUS "Python3_INCLUDE_DIR: ${Python3_INCLUDE_DIR}")
+message(STATUS "Python3_LIBRARY: ${Python3_LIBRARY}")
+
 set(PYBIND11_FINDPYTHON ON)
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)

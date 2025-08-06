@@ -10,6 +10,7 @@ class ExampleRecipe(ConanFile):
         self.requires("fmt/11.2.0")
         self.requires("gtest/1.16.0")
         self.requires("spdlog/1.15.3")
+        self.requires("pybind11/2.13.6")
 
     def layout(self):
         cmake_layout(self)

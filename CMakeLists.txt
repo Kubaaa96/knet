@@ -20,7 +20,18 @@ run_conan(
         INSTALL_ARGS --build=missing
 )
 
-project(cpp-template VERSION 0.0.5 DESCRIPTION "Basic template project for C++ language" LANGUAGES CXX C)
+find_package(Python 3.8 COMPONENTS Interpreter Development.Module REQUIRED)
+set(PYBIND11_FINDPYTHON ON)
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+set(CMAKE_CUDA_ARCHITECTURES 89)
+set(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
+
+
+project(knet VERSION 0.0.1 DESCRIPTION "Neural Network library" LANGUAGES CXX C CUDA)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -28,28 +39,27 @@ set(ENABLE_CLANG_TIDY "ENABLE_CLANG_TIDY")
 set(ENABLE_CPPCHECK "ENABLE_CPPCHECK")
 
 project_options(
-        PREFIX "cpptemplate"
+        PREFIX "knet"
         ENABLE_CACHE
         ${ENABLE_CPPCHECK}
         ${ENABLE_CLANG_TIDY}
          WARNINGS_AS_ERRORS
 )
 
-add_executable(${PROJECT_NAME} src/Example.cpp src/main.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME}
-        PRIVATE cpptemplate_project_options cpptemplate_project_warnings
+include(${CMAKE_SOURCE_DIR}/cmake/Helpers.cmake)
+
+add_library_and_link(NAME ${PROJECT_NAME}
+        SOURCES
+        src/Example.cpp
 )
 
-target_find_dependencies(${PROJECT_NAME}
-        PRIVATE_CONFIG
-        fmt
+add_app(${PROJECT_NAME}_app
+        SOURCES
+        src/main.cpp
+        DEPENDS
+        ${PROJECT_NAME}
 )
-
-target_link_system_libraries(${PROJECT_NAME}
-        PRIVATE
-        fmt::fmt
-)
+pybind11_add_module(testpackage ${CMAKE_SOURCE_DIR}/bindings/test.cpp)
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message(STATUS "Testing enabled")

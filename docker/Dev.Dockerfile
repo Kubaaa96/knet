@@ -1,4 +1,4 @@
-FROM cpp_template:0.0.1
+FROM knet:0.0.1
 
 RUN apt-get update && \
     apt-get install -y ssh rsync gdb nano python3-pip clang-format clang-tidy ccache cppcheck
@@ -7,7 +7,7 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y --only-upgrade libstdc++6
 
-RUN pip install conan
+RUN pip install --ignore-installed conan --break-system-packages
 
 RUN rm -rf /var/lib/apt/lists/*
 

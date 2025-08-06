@@ -37,6 +37,8 @@ jobs:
         id: cuda-toolkit
         with:
           cuda: '12.9.1'
+          method: network
+          sub-packages: '[ "nvcc", "cudart"]'
       - name: Check Cuda
         run: |
             echo "Installed cuda version is: ${{steps.cuda-toolkit.outputs.cuda}}"

@@ -1,18 +1,14 @@
-FROM ubuntu:22.04
+FROM nvcr.io/nvidia/cuda:12.9.1-cudnn-devel-ubuntu24.04
 
-RUN apt-get update && apt-get -y install sudo build-essential software-properties-common ninja-build wget libssl-dev libmpfr-dev libgmp3-dev libmpc-dev
+RUN gcc --version
 
-RUN wget http://ftp.gnu.org/gnu/gcc/gcc-15.1.0/gcc-15.1.0.tar.gz && tar -xf gcc-15.1.0.tar.gz && cd gcc-15.1.0 && ./configure -v --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=/usr/local/gcc-15.1.0 --enable-checking=release --enable-languages=c,c++ --disable-multilib --program-suffix=-15.1.0 && make && sudo make install
+RUN apt-get update && apt-get -y install sudo software-properties-common ninja-build wget libssl-dev
 
 RUN cd /tmp &&  \
-    wget https://github.com/Kitware/CMake/archive/refs/tags/v3.30.2.tar.gz &&  \
-    tar -zxvf v3.30.2.tar.gz
+    wget https://github.com/Kitware/CMake/archive/refs/tags/v4.0.3.tar.gz &&  \
+    tar -zxvf v4.0.3.tar.gz
 
-RUN cd /tmp/CMake-3.30.2 &&  \
+RUN cd /tmp/CMake-4.0.3 &&  \
     ./bootstrap &&  \
     sudo gmake &&  \
     sudo gmake install
-
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/local/gcc-14.2.0/bin/g++-15.1.0 15
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/local/gcc-14.2.0/bin/gcc-15.1.0 15
-RUN gcc --version

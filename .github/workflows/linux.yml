@@ -39,9 +39,9 @@ jobs:
           cuda: '12.9.1'
       - name: Check Cuda
         run: |
-            run: echo "Installed cuda version is: ${{steps.cuda-toolkit.outputs.cuda}}"
-            run: echo "Cuda install location: ${{steps.cuda-toolkit.outputs.CUDA_PATH}}"
-            run: nvcc -V
+            echo "Installed cuda version is: ${{steps.cuda-toolkit.outputs.cuda}}"
+            echo "Cuda install location: ${{steps.cuda-toolkit.outputs.CUDA_PATH}}"
+            nvcc -V
       - name: Install dependencies
         run: |
           pip install conan gcovr
